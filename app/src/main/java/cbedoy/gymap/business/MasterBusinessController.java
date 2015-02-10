@@ -7,6 +7,7 @@ import cbedoy.gymap.business.map.interfaces.IMapTransactionDelegate;
 import cbedoy.gymap.business.map.interfaces.IMapTransactionHandler;
 import cbedoy.gymap.business.signup.interfaces.ISignUpTransactionDelegate;
 import cbedoy.gymap.business.signup.interfaces.ISignUpTransactionHandler;
+import cbedoy.gymap.interfaces.IMementoHandler;
 
 /**
  * Created by Carlos Bedoy on 2/10/15.
@@ -21,4 +22,19 @@ public class MasterBusinessController extends BusinessController implements ILog
     private ISignUpTransactionDelegate signUpTransactionDelegate;
     private IMapTransactionDelegate mapTransactionDelegate;
 
+    public void setLoginTransactionDelegate(ILoginTransactionDelegate loginTransactionDelegate) {
+        this.loginTransactionDelegate = loginTransactionDelegate;
+    }
+
+    public void setMapTransactionDelegate(IMapTransactionDelegate mapTransactionDelegate) {
+        this.mapTransactionDelegate = mapTransactionDelegate;
+    }
+
+    public void setSignUpTransactionDelegate(ISignUpTransactionDelegate signUpTransactionDelegate) {
+        this.signUpTransactionDelegate = signUpTransactionDelegate;
+    }
+
+    public void startApplication() {
+
+    }
 }
