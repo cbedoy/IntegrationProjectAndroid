@@ -2,6 +2,7 @@ package cbedoy.gymap.artifacts;
 
 import android.view.View;
 
+import cbedoy.gymap.interfaces.IMementoHandler;
 import cbedoy.gymap.interfaces.INotificationMessages;
 import cbedoy.gymap.interfaces.IViewController;
 
@@ -17,9 +18,11 @@ import cbedoy.gymap.interfaces.IViewController;
  */
 public abstract class AbstractViewController implements IViewController
 {
-    protected View view;
-    protected INotificationMessages notificationMessages;
+
     protected TAG tag;
+    protected View view;
+    protected IMementoHandler mementoHandler;
+    protected INotificationMessages notificationMessages;
 
 
     public abstract View onCreateView();
@@ -27,6 +30,10 @@ public abstract class AbstractViewController implements IViewController
 
     public void setNotificationMessages(INotificationMessages notificationMessages) {
         this.notificationMessages = notificationMessages;
+    }
+
+    public void setMementoHandler(IMementoHandler mementoHandler) {
+        this.mementoHandler = mementoHandler;
     }
 
     public void setTag(TAG tag) {
@@ -41,6 +48,8 @@ public abstract class AbstractViewController implements IViewController
         return view;
     }
 
-
-
+    @Override
+    public boolean onBackPressed() {
+       return true;
+    }
 }

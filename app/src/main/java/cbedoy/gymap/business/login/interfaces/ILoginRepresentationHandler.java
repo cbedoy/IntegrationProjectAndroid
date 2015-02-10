@@ -10,5 +10,8 @@ package cbedoy.gymap.business.login.interfaces;
  * Facebook: https://www.facebook.com/carlos.bedoy
  * Github: https://github.com/cbedoy
  */
-public interface ILoginRepresentationHandler {
+public interface ILoginRepresentationHandler
+{
+    public void clearUsername();
+    public void clearPassword();
 }

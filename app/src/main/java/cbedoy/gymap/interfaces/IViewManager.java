@@ -1,5 +1,7 @@
 package cbedoy.gymap.interfaces;
 
+import android.app.Activity;
+
 import static cbedoy.gymap.interfaces.IViewController.*;
 
 /**
@@ -16,5 +18,7 @@ public interface IViewManager
 {
     public void presentViewFromTag(TAG tag);
     public void addViewControllerFromTag(TAG tag, IViewController viewController);
+    public void reActivateCurrentView();
+    public Activity getParentActivity();
 
 }
