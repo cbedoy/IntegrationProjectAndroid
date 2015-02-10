@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:layout_marginLeft="-96dp"
+        android:layout_marginRight="-96dp"
+        android:src="@drawable/wallpaper_blur"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="Sign Up"
+        android:textSize="18sp"
+        android:textColor="#FAFAFA"
+        android:layout_margin="16dp"
+        android:background="@drawable/transparent_rounded_button"
+        android:id="@+id/mSignUpAction"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="Login"
+        android:textSize="18sp"
+        android:textColor="#009688"
+        android:layout_margin="16dp"
+        android:background="@drawable/rounded_button"
+        android:id="@+id/mLoginAction"
+        android:layout_above="@+id/mSignUpAction"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:textColorHint="#99a0a0a0"
+        android:hint="username/e-mail"
+        android:gravity="center|left"
+        android:textSize="18sp"
+        android:id="@+id/mUsernameField"
+        android:layout_marginTop="116dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/mLoginAction"
+        android:layout_alignStart="@+id/mLoginAction"
+        android:layout_alignRight="@+id/mLoginAction"
+        android:layout_alignEnd="@+id/mLoginAction" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:inputType="textPassword"
+        android:textColorHint="#99a0a0a0"
+        android:hint="password"
+        android:textSize="18sp"
+        android:gravity="center|left"
+        android:ems="10"
+        android:id="@+id/mPasswordField"
+        android:layout_below="@+id/mUsernameField"
+        android:layout_alignLeft="@+id/mUsernameField"
+        android:layout_alignStart="@+id/mUsernameField"
+        android:layout_alignRight="@+id/mUsernameField"
+        android:layout_alignEnd="@+id/mUsernameField" />
+
+</RelativeLayout>
