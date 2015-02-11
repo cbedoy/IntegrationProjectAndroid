@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GyMap.iml" filepath="$PROJECT_DIR$/GyMap.iml" />
-      <module fileurl="file://$PROJECT_DIR$/IntegrationProjectAndroid.iml" filepath="$PROJECT_DIR$/IntegrationProjectAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

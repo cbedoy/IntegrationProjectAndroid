@@ -58,4 +58,9 @@ public abstract class AbstractViewController implements IViewController
     public void toogleButtons(boolean b) {
         actionBack = b;
     }
+
+    @Override
+    public void toogleButtons(boolean b) {
+
+    }
 }

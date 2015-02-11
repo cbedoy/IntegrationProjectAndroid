@@ -10,9 +10,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-import org.pademobile.bills.utils.BillsUtils;
-import org.pademobile.inapp.services.BlurService;
 
+import cbedoy.gymap.services.BillsUtils;
 import cbedoy.gymap.services.BlurService;
 import cbedoy.gymap.R;
 
