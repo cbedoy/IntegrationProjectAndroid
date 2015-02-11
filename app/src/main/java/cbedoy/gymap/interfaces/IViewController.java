@@ -17,7 +17,9 @@ public interface IViewController
     public View getView();
     public void onAttachToWindow();
     public void onRemoveToWindow();
-    public void onBackPressed();
+    public boolean onBackPressed();
+
+    public void toogleButtons(boolean b);
 
 
     public enum TAG

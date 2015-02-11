@@ -8,6 +8,7 @@ import cbedoy.gymap.business.signup.interfaces.ISignUpInformationDelegate;
 import cbedoy.gymap.business.signup.interfaces.ISignUpInformationHandler;
 import cbedoy.gymap.interfaces.IMementoHandler;
 import cbedoy.gymap.interfaces.INotificationMessages;
+import cbedoy.gymap.interfaces.IRestService;
 
 /**
  * Created by Carlos Bedoy on 09/02/2015.
@@ -21,6 +22,7 @@ import cbedoy.gymap.interfaces.INotificationMessages;
  */
 public class InformationService implements ILoginInformationHandler, ISignUpInformationHandler, IMapInformationHandler
 {
+    private IRestService restService;
     private IMementoHandler mementoHandler;
     private INotificationMessages notificationMessages;
     private IMapInformationDelegate mapInformationDelegate;
@@ -37,5 +39,13 @@ public class InformationService implements ILoginInformationHandler, ISignUpInfo
 
     public void setSignUpInformationDelegate(ISignUpInformationDelegate signUpInformationDelegate) {
         this.signUpInformationDelegate = signUpInformationDelegate;
+    }
+
+    public void setRestService(IRestService restService) {
+        this.restService = restService;
+    }
+
+    public void setMementoHandler(IMementoHandler mementoHandler) {
+        this.mementoHandler = mementoHandler;
     }
 }
