@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cbedoy.gymap.R;
+import cbedoy.gymap.assambly.MainAssambly;
 import cbedoy.gymap.interfaces.IViewController;
 import cbedoy.gymap.interfaces.IViewManager;
 
@@ -34,6 +35,7 @@ public class MasterViewController extends ActionBarActivity implements IViewMana
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master_view_controlle);
+        MainAssambly.getInstance().init(this);
         viewModel = new HashMap<>();
     }
 

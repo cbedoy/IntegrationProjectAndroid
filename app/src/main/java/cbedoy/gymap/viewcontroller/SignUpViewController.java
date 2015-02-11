@@ -2,7 +2,9 @@ package cbedoy.gymap.viewcontroller;
 
 import android.view.View;
 
+import cbedoy.gymap.R;
 import cbedoy.gymap.artifacts.AbstractViewController;
+import cbedoy.gymap.artifacts.ApplicationLoader;
 import cbedoy.gymap.business.signup.interfaces.ISignUpRepresentationDelegate;
 import cbedoy.gymap.business.signup.interfaces.ISignUpRepresentationHandler;
 
@@ -27,7 +29,8 @@ public class SignUpViewController extends AbstractViewController implements ISig
 
     @Override
     public View onCreateView() {
-        return null;
+        view = ApplicationLoader.mainLayoutInflater.inflate(R.layout.signup_view_controller, null);
+        return view;
     }
 
     @Override

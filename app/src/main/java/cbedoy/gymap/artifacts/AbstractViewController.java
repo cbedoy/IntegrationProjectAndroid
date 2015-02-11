@@ -21,6 +21,7 @@ public abstract class AbstractViewController implements IViewController
 
     protected TAG tag;
     protected View view;
+    protected boolean actionBack;
     protected IMementoHandler mementoHandler;
     protected INotificationMessages notificationMessages;
 
@@ -51,5 +52,10 @@ public abstract class AbstractViewController implements IViewController
     @Override
     public boolean onBackPressed() {
        return true;
+    }
+
+    @Override
+    public void toogleButtons(boolean b) {
+        actionBack = b;
     }
 }
