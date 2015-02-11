@@ -52,4 +52,9 @@ public abstract class AbstractViewController implements IViewController
     public boolean onBackPressed() {
        return true;
     }
+
+    @Override
+    public void toogleButtons(boolean b) {
+
+    }
 }
