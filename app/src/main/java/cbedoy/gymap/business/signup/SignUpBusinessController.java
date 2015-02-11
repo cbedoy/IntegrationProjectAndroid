@@ -1,5 +1,7 @@
 package cbedoy.gymap.business.signup;
 
+import java.util.HashMap;
+
 import cbedoy.gymap.artifacts.BusinessController;
 import cbedoy.gymap.business.signup.interfaces.ISignUpInformationDelegate;
 import cbedoy.gymap.business.signup.interfaces.ISignUpInformationHandler;
@@ -34,5 +36,15 @@ public class SignUpBusinessController extends BusinessController implements ISig
 
     public void setRepresentationHandler(ISignUpRepresentationHandler representationHandler) {
         this.representationHandler = representationHandler;
+    }
+
+    @Override
+    public void signUpResponse(HashMap<String, Object> response) {
+
+    }
+
+    @Override
+    public void signUserWithData(HashMap<String, Object> data) {
+
     }
 }

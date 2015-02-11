@@ -2,6 +2,8 @@ package cbedoy.gymap.artifacts;
 
 import android.view.View;
 
+import java.util.HashMap;
+
 import cbedoy.gymap.interfaces.IMementoHandler;
 import cbedoy.gymap.interfaces.INotificationMessages;
 import cbedoy.gymap.interfaces.IViewController;
@@ -56,5 +58,11 @@ public abstract class AbstractViewController implements IViewController
     @Override
     public void toogleButtons(boolean b) {
 
+    }
+
+    public HashMap<String, Object> getMementoData(){
+        Memento topMemento = mementoHandler.getTopMemento();
+        HashMap<String, Object> mementoData = topMemento.getMementoData();
+        return mementoData;
     }
 }

@@ -1,5 +1,7 @@
 package cbedoy.gymap.business.map;
 
+import java.util.HashMap;
+
 import cbedoy.gymap.artifacts.BusinessController;
 import cbedoy.gymap.business.map.interfaces.IMapInformationDelegate;
 import cbedoy.gymap.business.map.interfaces.IMapInformationHandler;
@@ -34,5 +36,15 @@ public class MapBusinessController extends BusinessController implements IMapInf
 
     public void setRepresentationHandler(IMapRepresentationHandler representationHandler) {
         this.representationHandler = representationHandler;
+    }
+
+    @Override
+    public void mapResponse(HashMap<String, Object> response) {
+
+    }
+
+    @Override
+    public void addNewPointWithData(HashMap<String, Object> pointData) {
+
     }
 }

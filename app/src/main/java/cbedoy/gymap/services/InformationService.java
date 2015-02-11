@@ -48,4 +48,19 @@ public class InformationService implements ILoginInformationHandler, ISignUpInfo
     public void setMementoHandler(IMementoHandler mementoHandler) {
         this.mementoHandler = mementoHandler;
     }
+
+    @Override
+    public void requestLogin() {
+
+    }
+
+    @Override
+    public void requestMapInformation() {
+
+    }
+
+    @Override
+    public void registerUser() {
+
+    }
 }

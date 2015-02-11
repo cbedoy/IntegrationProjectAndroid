@@ -1,5 +1,7 @@
 package cbedoy.gymap.business.login;
 
+import java.util.HashMap;
+
 import cbedoy.gymap.artifacts.BusinessController;
 import cbedoy.gymap.business.login.interfaces.ILoginInformationDelegate;
 import cbedoy.gymap.business.login.interfaces.ILoginInformationHandler;
@@ -34,5 +36,15 @@ public class LoginBusinessController extends BusinessController implements ILogi
 
     public void setRepresentationHandler(ILoginRepresentationHandler representationHandler) {
         this.representationHandler = representationHandler;
+    }
+
+    @Override
+    public void loginResponse(HashMap<String, Object> response) {
+
+    }
+
+    @Override
+    public void login(String username, String password) {
+
     }
 }

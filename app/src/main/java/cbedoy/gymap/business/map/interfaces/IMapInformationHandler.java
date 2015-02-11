@@ -10,5 +10,7 @@ package cbedoy.gymap.business.map.interfaces;
  * Facebook: https://www.facebook.com/carlos.bedoy
  * Github: https://github.com/cbedoy
  */
-public interface IMapInformationHandler {
+public interface IMapInformationHandler
+{
+    public void requestMapInformation();
 }
