@@ -5,6 +5,7 @@ import cbedoy.gymap.business.login.LoginBusinessController;
 import cbedoy.gymap.business.map.MapBusinessController;
 import cbedoy.gymap.business.signup.SignUpBusinessController;
 import cbedoy.gymap.interfaces.IViewController;
+import cbedoy.gymap.interfaces.IViewManager;
 import cbedoy.gymap.services.InformationService;
 import cbedoy.gymap.services.MementoHandler;
 import cbedoy.gymap.services.NotificationMessages;
@@ -35,7 +36,7 @@ public class MainAssambly
     }
 
 
-    public void init()
+    public void init(IViewManager viewManager)
     {
 
         MasterBusinessController masterBusinessController = new MasterBusinessController();
@@ -99,6 +100,10 @@ public class MainAssambly
         masterBusinessController.setMapTransactionDelegate(mapBusinessController);
         masterBusinessController.setNotificationMessages(notificationMessages);
         masterBusinessController.setMementoHandler(mementoHandler);
+
+        viewManager.addViewControllerFromTag(IViewController.TAG.LOGIN, loginViewController);
+        viewManager.addViewControllerFromTag(IViewController.TAG.SIGNUP, signUpViewController);
+        viewManager.addViewControllerFromTag(IViewController.TAG.MAP, mapViewController);
 
         //START APP FLOW
         masterBusinessController.startApplication();

@@ -2,7 +2,9 @@ package cbedoy.gymap.viewcontroller;
 
 import android.view.View;
 
+import cbedoy.gymap.R;
 import cbedoy.gymap.artifacts.AbstractViewController;
+import cbedoy.gymap.artifacts.ApplicationLoader;
 import cbedoy.gymap.business.login.interfaces.ILoginRepresentationDelegate;
 import cbedoy.gymap.business.login.interfaces.ILoginRepresentationHandler;
 
@@ -26,8 +28,10 @@ public class LoginViewController extends AbstractViewController implements ILogi
     }
 
     @Override
-    public View onCreateView() {
-        return null;
+    public View onCreateView()
+    {
+        view = ApplicationLoader.mainLayoutInflater.inflate(R.layout.login_view_controller, null);
+        return view;
     }
 
     @Override
