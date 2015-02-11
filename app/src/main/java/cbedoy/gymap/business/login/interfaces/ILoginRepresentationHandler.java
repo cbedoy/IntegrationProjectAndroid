@@ -14,4 +14,5 @@ public interface ILoginRepresentationHandler
 {
     public void clearUsername();
     public void clearPassword();
+    public void showLoginWithData();
 }

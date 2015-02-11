@@ -1,5 +1,7 @@
 package cbedoy.gymap.business.map.interfaces;
 
+import java.util.HashMap;
+
 /**
  * Created by Carlos Bedoy on 09/02/2015.
  * <p/>
@@ -10,5 +12,7 @@ package cbedoy.gymap.business.map.interfaces;
  * Facebook: https://www.facebook.com/carlos.bedoy
  * Github: https://github.com/cbedoy
  */
-public interface IMapInformationDelegate {
+public interface IMapInformationDelegate
+{
+    public void mapResponse(HashMap<String, Object> response);
 }

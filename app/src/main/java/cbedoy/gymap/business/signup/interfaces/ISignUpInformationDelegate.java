@@ -1,5 +1,7 @@
 package cbedoy.gymap.business.signup.interfaces;
 
+import java.util.HashMap;
+
 /**
  * Created by Carlos Bedoy on 09/02/2015.
  * <p/>
@@ -10,5 +12,7 @@ package cbedoy.gymap.business.signup.interfaces;
  * Facebook: https://www.facebook.com/carlos.bedoy
  * Github: https://github.com/cbedoy
  */
-public interface ISignUpInformationDelegate {
+public interface ISignUpInformationDelegate
+{
+    public void signUpResponse(HashMap<String, Object> response);
 }

@@ -2,10 +2,8 @@ package cbedoy.gymap;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -15,7 +13,7 @@ import android.widget.ViewFlipper;
 import java.util.HashMap;
 import java.util.Map;
 
-import cbedoy.gymap.R;
+
 import cbedoy.gymap.assambly.MainAssambly;
 import cbedoy.gymap.interfaces.IViewController;
 import cbedoy.gymap.interfaces.IViewManager;
