@@ -3,7 +3,6 @@ package cbedoy.gymap;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -14,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+import cbedoy.gymap.artifacts.BlackActivity;
 import cbedoy.gymap.assambly.MainAssambly;
 import cbedoy.gymap.interfaces.IViewController;
 import cbedoy.gymap.interfaces.IViewManager;
@@ -21,7 +21,7 @@ import cbedoy.gymap.interfaces.IViewManager;
 import static cbedoy.gymap.interfaces.IViewController.TAG;
 
 
-public class MasterViewController extends ActionBarActivity implements IViewManager
+public class MasterViewController extends BlackActivity implements IViewManager
 {
 
 
@@ -33,10 +33,22 @@ public class MasterViewController extends ActionBarActivity implements IViewMana
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master_view_controlle);
-        MainAssambly.getInstance().init(this);
+
         viewModel = new HashMap<>();
+        viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
+
+
+        MainAssambly.getInstance().init(this);
+
+
     }
 
+    @Override
+    public void finish()
+    {
+        super.finish();
+
+    }
 
     @Override
     public void onBackPressed() {
@@ -85,12 +97,12 @@ public class MasterViewController extends ActionBarActivity implements IViewMana
                 if(child_index != displayed_child)
                 {
 
-                    AlphaAnimation in = new AlphaAnimation(0.0f, 1.0f);
+                    AlphaAnimation in = new AlphaAnimation(0.1f, 1.0f);
                     in.setDuration(600);
                     in.setZAdjustment(Animation.ZORDER_TOP);
                     self.viewFlipper.setInAnimation(in);
 
-                    AlphaAnimation out = new AlphaAnimation(1.0f, 0.0f);
+                    AlphaAnimation out = new AlphaAnimation(1.0f, 0.1f);
                     out.setDuration(600);
                     out.setZAdjustment(Animation.ZORDER_TOP);
                     self.viewFlipper.setOutAnimation(out);

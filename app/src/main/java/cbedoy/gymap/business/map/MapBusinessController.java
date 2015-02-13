@@ -47,4 +47,9 @@ public class MapBusinessController extends BusinessController implements IMapInf
     public void addNewPointWithData(HashMap<String, Object> pointData) {
 
     }
+
+    @Override
+    public void loadLocations() {
+
+    }
 }

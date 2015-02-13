@@ -13,4 +13,5 @@ package cbedoy.gymap.business.login.interfaces;
 public interface ILoginRepresentationDelegate
 {
     public void login(String username, String password);
+    public void userNeedSignUp();
 }

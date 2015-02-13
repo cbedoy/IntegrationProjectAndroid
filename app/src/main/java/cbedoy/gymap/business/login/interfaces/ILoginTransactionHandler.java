@@ -10,5 +10,9 @@ package cbedoy.gymap.business.login.interfaces;
  * Facebook: https://www.facebook.com/carlos.bedoy
  * Github: https://github.com/cbedoy
  */
-public interface ILoginTransactionHandler {
+public interface ILoginTransactionHandler
+{
+    public void avoidLogin();
+    public void userWithSession();
+    public void registerUser();
 }

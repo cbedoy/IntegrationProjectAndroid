@@ -19,13 +19,8 @@
         android:background="#33000000"/>
 
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/mSignUpListView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+
+
 
 
 
@@ -34,12 +29,91 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
         android:src="@drawable/ic_action_confirm"
-        fab:fab_colorNormal="#303F9F"
-        fab:fab_colorPressed="#3F51B5"
-        fab:fab_colorRipple="#7986CB"
+        fab:fab_colorNormal="#293a4a"
+        fab:fab_colorPressed="#293a6a"
+        fab:fab_colorRipple="#293a9a"
+        android:layout_marginBottom="81dp"
         android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/mConfirmPassword"
+        android:layout_alignEnd="@+id/mConfirmPassword" />
+
+    <EditText
+        android:layout_marginTop="72dp"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:id="@+id/mUsername"
+        android:hint="username"
+        android:layout_marginRight="18dp"
+        android:layout_marginLeft="18dp"
+        android:textColorHint="#33FFFFFF"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:inputType="textPersonName"
+        android:hint="first name"
+        android:layout_marginRight="18dp"
+        android:layout_marginLeft="18dp"
+        android:textColorHint="#33FFFFFF"
+        android:ems="10"
+        android:id="@+id/mFirstName"
+        android:layout_below="@+id/mUsername"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:inputType="textPersonName"
+        android:hint="last name"
+        android:layout_marginRight="18dp"
+        android:layout_marginLeft="18dp"
+        android:textColorHint="#33FFFFFF"
+        android:ems="10"
+        android:id="@+id/mLastName"
+        android:layout_below="@+id/mFirstName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:layout_marginRight="18dp"
+        android:layout_marginLeft="18dp"
+        android:hint="password"
+        android:textColorHint="#33FFFFFF"
+        android:id="@+id/mPassword"
+        android:layout_below="@+id/mLastName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:layout_marginRight="18dp"
+        android:layout_marginLeft="18dp"
+        android:hint="confirm password"
+        android:textColorHint="#33FFFFFF"
+        android:id="@+id/mConfirmPassword"
+        android:layout_below="@+id/mPassword"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 

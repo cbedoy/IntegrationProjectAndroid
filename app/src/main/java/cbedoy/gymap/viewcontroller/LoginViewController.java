@@ -1,5 +1,7 @@
 package cbedoy.gymap.viewcontroller;
 
+import android.content.Intent;
+import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,13 +37,31 @@ public class LoginViewController extends AbstractViewController implements ILogi
     }
 
     @Override
-    public View onCreateView()
+    public View onCreateView(){
         view = ApplicationLoader.mainLayoutInflater.inflate(R.layout.login_view_controller, null);
         mUsernameView = (EditText) view.findViewById(R.id.mUsernameField);
         mPasswordView = (EditText) view.findViewById(R.id.mPasswordField);
         mActionLoginView = (Button) view.findViewById(R.id.mLoginAction);
         mActionSignUpView = (Button) view.findViewById(R.id.mSignUpAction);
-
+        mActionLoginView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                /*
+                String username = mUsernameView.getText().toString();
+                String password = mPasswordView.getText().toString();
+                representationDelegate.login(username, password);
+                */
+                Intent intent = new Intent(ApplicationLoader.mainContext, MapViewController.class);
+                ApplicationLoader.mainContext.startActivity(intent);
+            }
+        });
+        mActionSignUpView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                representationDelegate.userNeedSignUp();
+            }
+        });
         return view;
     }
 
@@ -72,6 +92,6 @@ public class LoginViewController extends AbstractViewController implements ILogi
 
     @Override
     public void showLoginWithData() {
-
+        parentActivity.presentViewFromTag(this.tag);
     }
 }
