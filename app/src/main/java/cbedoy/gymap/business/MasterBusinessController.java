@@ -35,6 +35,26 @@ public class MasterBusinessController extends BusinessController implements ILog
     }
 
     public void startApplication() {
+        loginTransactionDelegate.startLogin();
+    }
 
+    @Override
+    public void avoidLogin() {
+        mapTransactionDelegate.loadLocations();
+    }
+
+    @Override
+    public void userWithSession() {
+        mapTransactionDelegate.loadLocations();
+    }
+
+    @Override
+    public void registerUser() {
+        signUpTransactionDelegate.startSignUp();
+    }
+
+    @Override
+    public void signedUser() {
+        loginTransactionDelegate.startLogin();
     }
 }

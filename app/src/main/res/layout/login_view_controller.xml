@@ -17,20 +17,21 @@
         android:layout_height="match_parent"
         android:background="#33000000"/>
 
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:text="Sign Up"
         android:textSize="18sp"
         android:textColor="#FAFAFA"
-        android:layout_margin="16dp"
         android:background="@drawable/transparent_rounded_button"
         android:id="@+id/mSignUpAction"
+        android:layout_marginBottom="48dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignLeft="@+id/mLoginAction"
+        android:layout_alignStart="@+id/mLoginAction"
+        android:layout_alignRight="@+id/mLoginAction"
+        android:layout_alignEnd="@+id/mLoginAction" />
 
     <Button
         android:layout_width="wrap_content"

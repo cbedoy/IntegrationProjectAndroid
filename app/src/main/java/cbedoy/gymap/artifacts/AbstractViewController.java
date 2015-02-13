@@ -7,6 +7,7 @@ import java.util.HashMap;
 import cbedoy.gymap.interfaces.IMementoHandler;
 import cbedoy.gymap.interfaces.INotificationMessages;
 import cbedoy.gymap.interfaces.IViewController;
+import cbedoy.gymap.interfaces.IViewManager;
 
 /**
  * Created by Carlos Bedoy on 09/02/2015.
@@ -25,6 +26,7 @@ public abstract class AbstractViewController implements IViewController
     protected View view;
     protected boolean actionBack;
     protected IMementoHandler mementoHandler;
+    protected IViewManager parentActivity;
     protected INotificationMessages notificationMessages;
 
 
@@ -61,14 +63,13 @@ public abstract class AbstractViewController implements IViewController
         actionBack = b;
     }
 
-    @Override
-    public void toogleButtons(boolean b) {
-
-    }
-
     public HashMap<String, Object> getMementoData(){
         Memento topMemento = mementoHandler.getTopMemento();
         HashMap<String, Object> mementoData = topMemento.getMementoData();
         return mementoData;
+    }
+
+    public void setParentActivity(IViewManager parentActivity) {
+        this.parentActivity = parentActivity;
     }
 }

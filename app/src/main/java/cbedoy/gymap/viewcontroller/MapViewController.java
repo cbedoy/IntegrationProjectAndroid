@@ -3,6 +3,8 @@ package cbedoy.gymap.viewcontroller;
 import android.view.View;
 
 import cbedoy.gymap.R;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import cbedoy.gymap.artifacts.AbstractViewController;

@@ -1,6 +1,7 @@
 package cbedoy.gymap.viewcontroller;
 
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.melnykov.fab.FloatingActionButton;
@@ -29,9 +30,12 @@ public class SignUpViewController extends AbstractViewController implements ISig
 {
 
     private FloatingActionButton mFloatinActionButton;
-    private ListView mListView;
-    private SignUpViewCell signUpViewCell;
     private ISignUpRepresentationDelegate representationDelegate;
+    private EditText mUsername;
+    private EditText mPassword;
+    private EditText mConfirmPassword;
+    private EditText mFirstName;
+    private EditText mLastName;
 
     public void setRepresentationDelegate(ISignUpRepresentationDelegate representationDelegate) {
         this.representationDelegate = representationDelegate;
@@ -40,11 +44,42 @@ public class SignUpViewController extends AbstractViewController implements ISig
     @Override
     public View onCreateView() {
         view = ApplicationLoader.mainLayoutInflater.inflate(R.layout.signup_view_controller, null);
-        mFloatinActionButton = (FloatingActionButton) view.findViewById(R.id.mSignUpActionFinish);
-        mListView = (ListView) view.findViewById(R.id.mSignUpListView);
+        mUsername = (EditText) view.findViewById(R.id.mUsername);
+        mPassword = (EditText) view.findViewById(R.id.mPassword);
+        mConfirmPassword = (EditText) view.findViewById(R.id.mConfirmPassword);
+        mFirstName = (EditText) view.findViewById(R.id.mFirstName);
+        mLastName = (EditText) view.findViewById(R.id.mLastName);
 
-        mFloatinActionButton.attachToListView(mListView);
+        mFloatinActionButton = (FloatingActionButton) view.findViewById(R.id.mSignUpActionFinish);
+        mFloatinActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fillData();
+            }
+        });
         return view;
+    }
+
+    private void fillData() {
+        String username = mUsername.getText().toString();
+        String password = mPassword.getText().toString();
+        String confirmPassword = mConfirmPassword.getText().toString();
+        String firstName = mFirstName.getText().toString();
+        String lastName = mLastName.getText().toString();
+
+        if(password.equals(confirmPassword))
+        {
+            HashMap<String, Object> data = new HashMap<>();
+            data.put("username", username);
+            data.put("password", password);
+            data.put("fistName", firstName);
+            data.put("lastName", lastName);
+            representationDelegate.signUserWithData(data);
+        }
+        else
+        {
+
+        }
     }
 
     @Override
@@ -59,13 +94,15 @@ public class SignUpViewController extends AbstractViewController implements ISig
     }
 
     @Override
-    public boolean onBackPressed() {
-        return super.onBackPressed();
+    public boolean onBackPressed()
+    {
+        parentActivity.presentViewFromTag(TAG.LOGIN);
+        return false;
     }
 
     @Override
     public void showSignUp() {
-
+        parentActivity.presentViewFromTag(tag);
     }
 
     @Override

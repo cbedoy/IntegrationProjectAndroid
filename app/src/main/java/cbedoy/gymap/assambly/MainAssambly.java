@@ -53,6 +53,7 @@ public class MainAssambly
         loginViewController.setRepresentationDelegate(loginBusinessController);
         loginViewController.setNotificationMessages(notificationMessages);
         loginViewController.setTag(IViewController.TAG.LOGIN);
+        loginViewController.setParentActivity(viewManager);
         loginBusinessController.setNotificationMessages(notificationMessages);
         loginBusinessController.setMementoHandler(mementoHandler);
         loginBusinessController.setInformationHandler(informationService);
@@ -67,6 +68,7 @@ public class MainAssambly
         mapViewController.setRepresentationDelegate(mapBusinessController);
         mapViewController.setNotificationMessages(notificationMessages);
         mapViewController.setTag(IViewController.TAG.MAP);
+        mapViewController.setParentActivity(viewManager);
         mapBusinessController.setNotificationMessages(notificationMessages);
         mapBusinessController.setMementoHandler(mementoHandler);
         mapBusinessController.setInformationHandler(informationService);
@@ -80,6 +82,7 @@ public class MainAssambly
         signUpViewController.setRepresentationDelegate(signUpBusinessController);
         signUpViewController.setNotificationMessages(notificationMessages);
         signUpViewController.setTag(IViewController.TAG.SIGNUP);
+        signUpViewController.setParentActivity(viewManager);
         signUpBusinessController.setNotificationMessages(notificationMessages);
         signUpBusinessController.setMementoHandler(mementoHandler);
         signUpBusinessController.setInformationHandler(informationService);

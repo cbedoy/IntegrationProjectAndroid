@@ -17,7 +17,8 @@ public interface  INotificationMessages
 
     public void showCodeWithCallback(K_ERROR error, MessageRepresentationCallback callback);
 
-    public interface MessageRepresentationCallback
+
+    public abstract interface MessageRepresentationCallback
     {
         public void onAccept();
         public void onCancel();
