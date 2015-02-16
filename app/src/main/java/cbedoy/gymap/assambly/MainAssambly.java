@@ -1,5 +1,7 @@
 package cbedoy.gymap.assambly;
 
+import android.content.Context;
+
 import cbedoy.gymap.business.MasterBusinessController;
 import cbedoy.gymap.business.login.LoginBusinessController;
 import cbedoy.gymap.business.map.MapBusinessController;
@@ -10,6 +12,7 @@ import cbedoy.gymap.services.InformationService;
 import cbedoy.gymap.services.MementoHandler;
 import cbedoy.gymap.services.NotificationMessages;
 import cbedoy.gymap.services.RestService;
+import cbedoy.gymap.services.UserProviderService;
 import cbedoy.gymap.viewcontroller.LoginViewController;
 import cbedoy.gymap.viewcontroller.MapViewController;
 import cbedoy.gymap.viewcontroller.SignUpViewController;
@@ -39,12 +42,15 @@ public class MainAssambly
     public void init(IViewManager viewManager)
     {
 
-        MasterBusinessController masterBusinessController = new MasterBusinessController();
-        RestService restService = new RestService();
-        InformationService informationService = new InformationService();
-        MementoHandler mementoHandler = new MementoHandler();
-        NotificationMessages notificationMessages = new NotificationMessages();
-
+        Context context                                     = viewManager.getParentActivity().getApplicationContext();
+        MasterBusinessController masterBusinessController   = new MasterBusinessController();
+        RestService restService                             = new RestService();
+        InformationService informationService               = new InformationService();
+        MementoHandler mementoHandler                       = new MementoHandler();
+        NotificationMessages notificationMessages           = new NotificationMessages();
+        UserProviderService userProviderService             = new UserProviderService(context, "IntegrationProject", null, 1);
+        userProviderService.setMementoHandler(mementoHandler);
+        userProviderService.setNotificationMessages(notificationMessages);
 
         //LOGIN
         LoginViewController loginViewController = new LoginViewController();
@@ -93,6 +99,7 @@ public class MainAssambly
         informationService.setSignUpInformationDelegate(signUpBusinessController);
         informationService.setLoginInformationDelegate(loginBusinessController);
         informationService.setMapInformationDelegate(mapBusinessController);
+        informationService.setUserProviderService(userProviderService);
         informationService.setMementoHandler(mementoHandler);
         informationService.setRestService(restService);
 

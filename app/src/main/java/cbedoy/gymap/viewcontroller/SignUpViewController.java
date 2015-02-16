@@ -72,8 +72,8 @@ public class SignUpViewController extends AbstractViewController implements ISig
             HashMap<String, Object> data = new HashMap<>();
             data.put("username", username);
             data.put("password", password);
-            data.put("fistName", firstName);
-            data.put("lastName", lastName);
+            data.put("first_name", firstName);
+            data.put("last_name", lastName);
             representationDelegate.signUserWithData(data);
         }
         else

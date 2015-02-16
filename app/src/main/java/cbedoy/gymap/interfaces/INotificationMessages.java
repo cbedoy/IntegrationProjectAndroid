@@ -27,6 +27,7 @@ public interface  INotificationMessages
     public enum K_ERROR{
         K_INVALID_LOGIN,
         K_INVALID_CITY,
-        K_ERROR
+        K_ERROR,
+        K_SUCCCESS
     }
 }

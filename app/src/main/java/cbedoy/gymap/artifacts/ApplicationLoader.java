@@ -27,5 +27,8 @@ public class ApplicationLoader extends Application
         mainContext = getApplicationContext();
         mainLayoutInflater = (LayoutInflater) mainContext.getSystemService(LAYOUT_INFLATER_SERVICE);
         mainHandler = new Handler(getMainLooper());
+
+
+
     }
 }
