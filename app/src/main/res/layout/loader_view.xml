@@ -7,14 +7,14 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#DD000000"
+        android:background="#99000000"
         android:id="@+id/overlay_view"/>
 
     <ImageView
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:id="@+id/notification_view_icon"
-        android:src="@drawable/ic_action_confirm"
+        android:src="@drawable/ic_logo"
         android:padding="36dp"
         android:layout_alignBottom="@+id/notification_view_circle_dialog"
         android:layout_centerHorizontal="true" />

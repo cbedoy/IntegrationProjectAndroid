@@ -24,10 +24,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cbedoy.gymap.artifacts.ApplicationLoader;
+import cbedoy.gymap.interfaces.INotificationMessages;
 import cbedoy.gymap.services.GMapV2Direction;
 import cbedoy.gymap.services.GPService;
 import cbedoy.gymap.services.GetDirectionsAsyncTask;
 import cbedoy.gymap.services.LogService;
+import cbedoy.gymap.services.NotificationMessages;
 import cbedoy.gymap.widgets.LocationDialog;
 
 import static cbedoy.gymap.widgets.LocationDialog.*;
@@ -45,7 +47,8 @@ public class GoogleMapViewController extends FragmentActivity implements OnMyLoc
     private LatLng mPosition;
     private LatLng mDestiny;
     private LatLng mLongPressed;
-    private ProgressDialog mProgressDialog;
+    //private ProgressDialog mProgressDialog;
+    private INotificationMessages notificationMessages;
     private HashMap<String, Object> mInformation;
     private LocationDialog mLocationDialog;
 
@@ -53,7 +56,8 @@ public class GoogleMapViewController extends FragmentActivity implements OnMyLoc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        mProgressDialog = new ProgressDialog(this);
+        //mProgressDialog = new ProgressDialog(this);
+        notificationMessages = new NotificationMessages(this);
         randomHue = new float[]{
                 BitmapDescriptorFactory.HUE_AZURE,
                 BitmapDescriptorFactory.HUE_BLUE,
@@ -73,9 +77,10 @@ public class GoogleMapViewController extends FragmentActivity implements OnMyLoc
             public boolean onMarkerClick(Marker marker) {
                 LatLng markerSelected = marker.getPosition();
                 if (markerSelected.latitude != mPosition.latitude && markerSelected.longitude != mPosition.longitude) {
-                    mProgressDialog.setTitle("Loading...");
+                    /*mProgressDialog.setTitle("Loading...");
                     mProgressDialog.setMessage("Please wait while trace the optimal route from your location to marker selected");
-                    mProgressDialog.show();
+                    mProgressDialog.show();*/
+                    notificationMessages.showLoader();
                     mDestiny = markerSelected;
                     findDirections(
                             mPosition.latitude,
@@ -180,7 +185,8 @@ public class GoogleMapViewController extends FragmentActivity implements OnMyLoc
 
         getSreenDimanstions();
 
-        mProgressDialog.hide();
+        //mProgressDialog.hide();
+        notificationMessages.hideLoader();
     }
 
     @Override
@@ -203,8 +209,8 @@ public class GoogleMapViewController extends FragmentActivity implements OnMyLoc
         latlngBounds = createLatLngBoundsObject(mPosition, mDestiny);
         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latlngBounds, width, height, 150));
 
-        mProgressDialog.hide();
-
+        //mProgressDialog.hide();
+        notificationMessages.hideLoader();
     }
 
 
@@ -231,6 +237,7 @@ public class GoogleMapViewController extends FragmentActivity implements OnMyLoc
 
     private void findDirections(double fromPositionDoubleLat, double fromPositionDoubleLong, double toPositionDoubleLat, double toPositionDoubleLong, String mode)
     {
+        notificationMessages.showLoader();
         Map<String, String> map = new HashMap<>();
         map.put(GetDirectionsAsyncTask.USER_CURRENT_LAT, String.valueOf(fromPositionDoubleLat));
         map.put(GetDirectionsAsyncTask.USER_CURRENT_LONG, String.valueOf(fromPositionDoubleLong));

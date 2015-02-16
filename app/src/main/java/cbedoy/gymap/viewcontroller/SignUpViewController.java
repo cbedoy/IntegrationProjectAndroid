@@ -15,6 +15,7 @@ import cbedoy.gymap.artifacts.Memento;
 import cbedoy.gymap.artifacts.SignUpViewCell;
 import cbedoy.gymap.business.signup.interfaces.ISignUpRepresentationDelegate;
 import cbedoy.gymap.business.signup.interfaces.ISignUpRepresentationHandler;
+import cbedoy.gymap.interfaces.INotificationMessages;
 
 /**
  * Created by Carlos Bedoy on 09/02/2015.
@@ -67,7 +68,7 @@ public class SignUpViewController extends AbstractViewController implements ISig
         String firstName = mFirstName.getText().toString();
         String lastName = mLastName.getText().toString();
 
-        if(password.equals(confirmPassword))
+        if(password.equals(confirmPassword) && username.length() > 0 && password.length() > 0 && firstName.length() > 0 && lastName.length() > 0)
         {
             HashMap<String, Object> data = new HashMap<>();
             data.put("username", username);
@@ -78,7 +79,17 @@ public class SignUpViewController extends AbstractViewController implements ISig
         }
         else
         {
+            notificationMessages.showCodeWithCallback(INotificationMessages.K_ERROR.K_INVALID_DATA, new INotificationMessages.MessageRepresentationCallback() {
+                @Override
+                public void onAccept() {
+                    clearFields();
+                }
 
+                @Override
+                public void onCancel() {
+
+                }
+            });
         }
     }
 

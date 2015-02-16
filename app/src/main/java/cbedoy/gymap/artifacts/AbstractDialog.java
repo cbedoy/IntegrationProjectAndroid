@@ -21,7 +21,8 @@ public abstract class AbstractDialog
 {
     protected Activity activity;
     protected View view;
-    protected Dialog dialog;
+    public Dialog dialog;
+
 
     public AbstractDialog(Activity activity){
         this.activity = activity;
@@ -75,7 +76,7 @@ public abstract class AbstractDialog
 
 
 
-    protected void takeCurrentScreamShot()
+    public void takeCurrentScreamShot()
     {
 
         Bitmap screenShot = CBUtils.getInstance().takeScreenShot(activity);

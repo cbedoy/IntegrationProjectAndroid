@@ -71,7 +71,7 @@ public class MapBusinessController extends BusinessController implements IMapInf
             Memento topMemento = mementoHandler.getTopMemento();
             HashMap<String, Object> mementoData = topMemento.getMementoData();
             intent.putExtra("dataInApp", mementoData);
-
+            notificationMessages.hideLoader();
             ApplicationLoader.mainContext.startActivity(intent);
         }
     }
@@ -84,6 +84,7 @@ public class MapBusinessController extends BusinessController implements IMapInf
     @Override
     public void loadLocations()
     {
+        notificationMessages.showLoader();
         informationHandler.requestMapInformation();
     }
 }
