@@ -2,9 +2,12 @@ package cbedoy.gymap.artifacts;
 
 import android.view.View;
 
+import java.util.HashMap;
+
 import cbedoy.gymap.interfaces.IMementoHandler;
 import cbedoy.gymap.interfaces.INotificationMessages;
 import cbedoy.gymap.interfaces.IViewController;
+import cbedoy.gymap.interfaces.IViewManager;
 
 /**
  * Created by Carlos Bedoy on 09/02/2015.
@@ -21,7 +24,9 @@ public abstract class AbstractViewController implements IViewController
 
     protected TAG tag;
     protected View view;
+    protected boolean actionBack;
     protected IMementoHandler mementoHandler;
+    protected IViewManager parentActivity;
     protected INotificationMessages notificationMessages;
 
 
@@ -55,6 +60,16 @@ public abstract class AbstractViewController implements IViewController
 
     @Override
     public void toogleButtons(boolean b) {
+        actionBack = b;
+    }
 
+    public HashMap<String, Object> getMementoData(){
+        Memento topMemento = mementoHandler.getTopMemento();
+        HashMap<String, Object> mementoData = topMemento.getMementoData();
+        return mementoData;
+    }
+
+    public void setParentActivity(IViewManager parentActivity) {
+        this.parentActivity = parentActivity;
     }
 }

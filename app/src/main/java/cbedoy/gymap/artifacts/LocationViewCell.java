@@ -42,8 +42,8 @@ public class LocationViewCell extends AbstractViewCell
 
         HashMap<String, Object> information = dataModel.get(position);
         float longitude                     = Float.parseFloat(information.get("longitude").toString());
-        float latitude                      = Float.parseFloat(information.get("latitude").toString();
-        String latitudeFormatted            = String.format(Locale.US, "%.4f", latitude));
+        float latitude                      = Float.parseFloat(information.get("latitude").toString());
+        String latitudeFormatted            = String.format(Locale.US, "%.4f", latitude);
         String longitudeFormatted           = String.format(Locale.US, "%.4f", longitude);
         viewHolder.titleView.setText(information.get("title").toString());
         viewHolder.latitudeView.setText(latitudeFormatted);

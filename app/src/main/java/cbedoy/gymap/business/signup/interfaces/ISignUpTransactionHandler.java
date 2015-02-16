@@ -10,5 +10,7 @@ package cbedoy.gymap.business.signup.interfaces;
  * Facebook: https://www.facebook.com/carlos.bedoy
  * Github: https://github.com/cbedoy
  */
-public interface ISignUpTransactionHandler {
+public interface ISignUpTransactionHandler
+{
+    public void signedUser();
 }

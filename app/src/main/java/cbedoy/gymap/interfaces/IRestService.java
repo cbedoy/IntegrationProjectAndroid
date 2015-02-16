@@ -4,14 +4,7 @@ import java.util.HashMap;
 
 public interface IRestService {
 
-    public void setPort(int port);
-
-    public void setURL(String url);
-
-    public void setEnvironmentMaps(HashMap<String, Object> EnvironmentMaps);
-
-
-    public void request(String url, HashMap<String, Object> parameters, IRestCallback callback);
+    public void request(String url, IRestCallback callback);
 
     public interface IRestCallback {
 

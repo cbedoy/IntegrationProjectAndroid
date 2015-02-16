@@ -2,7 +2,13 @@ package cbedoy.gymap.viewcontroller;
 
 import android.view.View;
 
+import cbedoy.gymap.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import cbedoy.gymap.artifacts.AbstractViewController;
+import cbedoy.gymap.artifacts.ApplicationLoader;
 import cbedoy.gymap.business.map.interfaces.IMapRepresentationDelegate;
 import cbedoy.gymap.business.map.interfaces.IMapRepresentationHandler;
 
@@ -27,7 +33,8 @@ public class MapViewController extends AbstractViewController implements IMapRep
 
     @Override
     public View onCreateView() {
-        return null;
+        view = ApplicationLoader.mainLayoutInflater.inflate(R.layout.map_view_controller, null);
+        return view;
     }
 
     @Override
@@ -44,5 +51,10 @@ public class MapViewController extends AbstractViewController implements IMapRep
     @Override
     public boolean onBackPressed() {
         return super.onBackPressed();
+    }
+
+    @Override
+    public void showMapWithData(ArrayList<HashMap<String, Object>> points) {
+
     }
 }

@@ -1,14 +1,21 @@
 package cbedoy.gymap.assambly;
 
+import android.content.Context;
+
+import cbedoy.gymap.GoogleMapViewController;
 import cbedoy.gymap.business.MasterBusinessController;
 import cbedoy.gymap.business.login.LoginBusinessController;
 import cbedoy.gymap.business.map.MapBusinessController;
 import cbedoy.gymap.business.signup.SignUpBusinessController;
+import cbedoy.gymap.interfaces.IMementoHandler;
+import cbedoy.gymap.interfaces.INotificationMessages;
 import cbedoy.gymap.interfaces.IViewController;
+import cbedoy.gymap.interfaces.IViewManager;
 import cbedoy.gymap.services.InformationService;
 import cbedoy.gymap.services.MementoHandler;
 import cbedoy.gymap.services.NotificationMessages;
 import cbedoy.gymap.services.RestService;
+import cbedoy.gymap.services.UserProviderService;
 import cbedoy.gymap.viewcontroller.LoginViewController;
 import cbedoy.gymap.viewcontroller.MapViewController;
 import cbedoy.gymap.viewcontroller.SignUpViewController;
@@ -27,6 +34,8 @@ public class MainAssambly
 {
 
     private static MainAssambly instance;
+    private IMementoHandler mementoHandler;
+    private INotificationMessages notificationMessages;
 
     public static MainAssambly getInstance(){
         if(instance == null)
@@ -35,14 +44,15 @@ public class MainAssambly
     }
 
 
-    public void init()
+    public void init(IViewManager viewManager)
     {
 
-        MasterBusinessController masterBusinessController = new MasterBusinessController();
-        RestService restService = new RestService();
-        InformationService informationService = new InformationService();
-        MementoHandler mementoHandler = new MementoHandler();
-        NotificationMessages notificationMessages = new NotificationMessages();
+        Context context                                     = viewManager.getParentActivity().getApplicationContext();
+        MasterBusinessController masterBusinessController   = new MasterBusinessController();
+        RestService restService                             = new RestService();
+        InformationService informationService               = new InformationService();
+        mementoHandler                                      = new MementoHandler();
+        notificationMessages                                = new NotificationMessages(viewManager.getParentActivity());
 
 
         //LOGIN
@@ -52,6 +62,7 @@ public class MainAssambly
         loginViewController.setRepresentationDelegate(loginBusinessController);
         loginViewController.setNotificationMessages(notificationMessages);
         loginViewController.setTag(IViewController.TAG.LOGIN);
+        loginViewController.setParentActivity(viewManager);
         loginBusinessController.setNotificationMessages(notificationMessages);
         loginBusinessController.setMementoHandler(mementoHandler);
         loginBusinessController.setInformationHandler(informationService);
@@ -66,6 +77,7 @@ public class MainAssambly
         mapViewController.setRepresentationDelegate(mapBusinessController);
         mapViewController.setNotificationMessages(notificationMessages);
         mapViewController.setTag(IViewController.TAG.MAP);
+        mapViewController.setParentActivity(viewManager);
         mapBusinessController.setNotificationMessages(notificationMessages);
         mapBusinessController.setMementoHandler(mementoHandler);
         mapBusinessController.setInformationHandler(informationService);
@@ -79,16 +91,26 @@ public class MainAssambly
         signUpViewController.setRepresentationDelegate(signUpBusinessController);
         signUpViewController.setNotificationMessages(notificationMessages);
         signUpViewController.setTag(IViewController.TAG.SIGNUP);
+        signUpViewController.setParentActivity(viewManager);
         signUpBusinessController.setNotificationMessages(notificationMessages);
         signUpBusinessController.setMementoHandler(mementoHandler);
         signUpBusinessController.setInformationHandler(informationService);
         signUpBusinessController.setRepresentationHandler(signUpViewController);
         signUpBusinessController.setTransactionHandler(masterBusinessController);
 
+        //DATA BASE PROVIDER
+        UserProviderService userProviderService = new UserProviderService(context, "IntegrationProject", null, 1);
+        userProviderService.setMementoHandler(mementoHandler);
+        userProviderService.setNotificationMessages(notificationMessages);
+        userProviderService.setLoginInformationDelegate(loginBusinessController);
+        userProviderService.setSignUpInformationDelegate(signUpBusinessController);
+
         //INFORMATION SERVICE
         informationService.setSignUpInformationDelegate(signUpBusinessController);
         informationService.setLoginInformationDelegate(loginBusinessController);
         informationService.setMapInformationDelegate(mapBusinessController);
+        informationService.setUserProviderService(userProviderService);
+        informationService.setNotificationMessages(notificationMessages);
         informationService.setMementoHandler(mementoHandler);
         informationService.setRestService(restService);
 
@@ -100,8 +122,14 @@ public class MainAssambly
         masterBusinessController.setNotificationMessages(notificationMessages);
         masterBusinessController.setMementoHandler(mementoHandler);
 
+        viewManager.addViewControllerFromTag(IViewController.TAG.LOGIN, loginViewController);
+        viewManager.addViewControllerFromTag(IViewController.TAG.SIGNUP, signUpViewController);
+        viewManager.addViewControllerFromTag(IViewController.TAG.MAP, mapViewController);
+
         //START APP FLOW
         masterBusinessController.startApplication();
 
     }
+
+
 }

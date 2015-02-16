@@ -1,5 +1,8 @@
 package cbedoy.gymap.services;
 
+import java.util.HashMap;
+
+import cbedoy.gymap.artifacts.Memento;
 import cbedoy.gymap.business.login.interfaces.ILoginInformationDelegate;
 import cbedoy.gymap.business.login.interfaces.ILoginInformationHandler;
 import cbedoy.gymap.business.map.interfaces.IMapInformationDelegate;
@@ -9,6 +12,9 @@ import cbedoy.gymap.business.signup.interfaces.ISignUpInformationHandler;
 import cbedoy.gymap.interfaces.IMementoHandler;
 import cbedoy.gymap.interfaces.INotificationMessages;
 import cbedoy.gymap.interfaces.IRestService;
+import cbedoy.gymap.interfaces.IUserProviderService;
+
+import static cbedoy.gymap.interfaces.IRestService.*;
 
 /**
  * Created by Carlos Bedoy on 09/02/2015.
@@ -24,10 +30,12 @@ public class InformationService implements ILoginInformationHandler, ISignUpInfo
 {
     private IRestService restService;
     private IMementoHandler mementoHandler;
+    private IUserProviderService userProviderService;
     private INotificationMessages notificationMessages;
     private IMapInformationDelegate mapInformationDelegate;
     private ILoginInformationDelegate loginInformationDelegate;
     private ISignUpInformationDelegate signUpInformationDelegate;
+
 
     public void setMapInformationDelegate(IMapInformationDelegate mapInformationDelegate) {
         this.mapInformationDelegate = mapInformationDelegate;
@@ -47,5 +55,40 @@ public class InformationService implements ILoginInformationHandler, ISignUpInfo
 
     public void setMementoHandler(IMementoHandler mementoHandler) {
         this.mementoHandler = mementoHandler;
+    }
+
+    public void setUserProviderService(IUserProviderService userProviderService) {
+        this.userProviderService = userProviderService;
+    }
+
+    public void setNotificationMessages(INotificationMessages notificationMessages) {
+        this.notificationMessages = notificationMessages;
+    }
+
+    @Override
+    public void requestLogin() {
+        Memento topMemento = mementoHandler.getTopMemento();
+        HashMap<String, Object> mementoData = topMemento.getMementoData();
+        String username = mementoData.get("username").toString();
+        String password = mementoData.get("password").toString();
+        userProviderService.findUserFromFromData(username, password);
+    }
+
+    @Override
+    public void requestMapInformation()
+    {
+        String url = "https://raw.githubusercontent.com/cbedoy/IntegrationProjectAndroid/master/mock_location.json";
+        IRestCallback callback = new IRestCallback() {
+            @Override
+            public void run(HashMap<String, Object> response) {
+                mapInformationDelegate.mapResponse(response);
+            }
+        };
+        restService.request(url, callback);
+    }
+
+    @Override
+    public void registerUser() {
+        userProviderService.saveUserOnDataBase();
     }
 }
