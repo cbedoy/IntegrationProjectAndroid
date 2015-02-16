@@ -158,15 +158,22 @@ public class GoogleMapViewController extends FragmentActivity implements OnMyLoc
 
             mPosition = new LatLng(latitude, longitude);
 
+            HashMap<String, Object> login_response = (HashMap<String, Object>) mInformation.get("login_response");
+            HashMap<String, Object>  login_data = (HashMap<String, Object>) login_response.get("login_data");
+            String username = login_data.get("username").toString();
+            String first_name = login_data.get("first_name").toString();
+            String last_name = login_data.get("last_name").toString();
+
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(mPosition);
-            String username = ApplicationLoader.getUsername();
-            markerOptions.title(username.length() > 0 ? username : "Desconcido");
+            String googleUser = ApplicationLoader.getUsername();
+            markerOptions.title((googleUser.length() > 0 ? googleUser : "Desconcido") + " | " + username );
+            markerOptions.snippet(first_name + " " + last_name);
 
             mMap.addMarker(markerOptions);
 
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                    new LatLng(latitude, longitude), 8));
+                    new LatLng(latitude, longitude), 16));
         } else {
             gpService.showSettingsAlert();
         }

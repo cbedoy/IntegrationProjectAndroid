@@ -107,6 +107,10 @@ public class SignUpViewController extends AbstractViewController implements ISig
 
     @Override
     public void clearFields() {
-
+        mUsername.setText("");
+        mPassword.setText("");
+        mConfirmPassword.setText("");
+        mFirstName.setText("");
+        mLastName.setText("");
     }
 }

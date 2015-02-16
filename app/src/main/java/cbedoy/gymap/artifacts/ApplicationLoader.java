@@ -2,10 +2,13 @@ package cbedoy.gymap.artifacts;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -52,5 +55,19 @@ public class ApplicationLoader extends Application
                 return parts[0];
         }
         return "";
+    }
+
+    public static void hideKeyboard(Activity activity)
+    {
+        if (activity != null && activity.getWindow() != null && activity.getWindow().getDecorView() != null) {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
+        }
+    }
+
+    public static void showKeyboard(Activity activity, View view)
+    {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
     }
 }

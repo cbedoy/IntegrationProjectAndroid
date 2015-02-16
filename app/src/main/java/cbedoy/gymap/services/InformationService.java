@@ -15,6 +15,7 @@ import cbedoy.gymap.interfaces.IRestService;
 import cbedoy.gymap.interfaces.IUserProviderService;
 
 import static cbedoy.gymap.interfaces.IRestService.*;
+import static cbedoy.gymap.services.CBUtils.saveLastSession;
 
 /**
  * Created by Carlos Bedoy on 09/02/2015.
@@ -71,6 +72,18 @@ public class InformationService implements ILoginInformationHandler, ISignUpInfo
         HashMap<String, Object> mementoData = topMemento.getMementoData();
         String username = mementoData.get("username").toString();
         String password = mementoData.get("password").toString();
+        userProviderService.findUserFromFromData(username, password);
+    }
+
+    @Override
+    public void requestLoginAfterSignUp()
+    {
+        Memento topMemento = mementoHandler.getTopMemento();
+        HashMap<String, Object> mementoData = topMemento.getMementoData();
+        HashMap<String, Object>  sign_up_data = (HashMap<String, Object>) mementoData.get("sign_up_data");
+        String username = sign_up_data.get("username").toString();
+        String password = sign_up_data.get("password").toString();
+        saveLastSession(username, password);
         userProviderService.findUserFromFromData(username, password);
     }
 

@@ -13,4 +13,5 @@ package cbedoy.gymap.business.login.interfaces;
 public interface ILoginInformationHandler
 {
     public void requestLogin();
+    public void requestLoginAfterSignUp();
 }

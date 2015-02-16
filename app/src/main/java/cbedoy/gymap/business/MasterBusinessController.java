@@ -55,6 +55,6 @@ public class MasterBusinessController extends BusinessController implements ILog
 
     @Override
     public void signedUser() {
-        loginTransactionDelegate.startLogin();
+        loginTransactionDelegate.doAutoLogin();
     }
 }

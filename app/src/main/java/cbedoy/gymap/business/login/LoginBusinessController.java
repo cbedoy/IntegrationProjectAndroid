@@ -95,4 +95,9 @@ public class LoginBusinessController extends BusinessController implements ILogi
     {
         representationHandler.showLoginWithData();
     }
+
+    @Override
+    public void doAutoLogin() {
+        informationHandler.requestLoginAfterSignUp();
+    }
 }

@@ -13,4 +13,5 @@ package cbedoy.gymap.business.login.interfaces;
 public interface ILoginTransactionDelegate
 {
     public void startLogin();
+    public void doAutoLogin();
 }
