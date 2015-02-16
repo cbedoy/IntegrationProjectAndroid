@@ -63,24 +63,26 @@ public class InformationService implements ILoginInformationHandler, ISignUpInfo
 
     @Override
     public void requestLogin() {
-        Memento topMemento = mementoHandler.getTopMemento();
+        /*Memento topMemento = mementoHandler.getTopMemento();
         HashMap<String, Object> mementoData = topMemento.getMementoData();
         String username = mementoData.get("username").toString();
         String password = mementoData.get("password").toString();
         userProviderService.findUserFromFromData(username, password);
+        */
+        requestMapInformation();
     }
 
     @Override
     public void requestMapInformation()
     {
-        
+        String url = "https://raw.githubusercontent.com/cbedoy/IntegrationProjectAndroid/master/mock_location.json";
         IRestCallback callback = new IRestCallback() {
             @Override
             public void run(HashMap<String, Object> response) {
                 mapInformationDelegate.mapResponse(response);
             }
         };
-        restService.request("");
+        restService.request(url, callback);
     }
 
     @Override

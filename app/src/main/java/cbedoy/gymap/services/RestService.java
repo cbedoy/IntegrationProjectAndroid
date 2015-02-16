@@ -8,10 +8,12 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -30,33 +32,12 @@ import cbedoy.gymap.interfaces.IRestService;
 
 public class RestService implements IRestService {
 
-    private int mPort;
-    private String mUrl;
-    private HashMap<String, Object> mEnvironmentMaps;
-    private HashMap<String, Object> mEnvironmentMapsPayPal;
-
-    @Override
-    public void setURL(String url) {
-        mUrl = url;
-    }
-
-    @Override
-    public void setEnvironmentMaps(HashMap<String, Object> EnvironmentMaps) {
-        this.mEnvironmentMaps = EnvironmentMaps;
-    }
-
-    @Override
-    public void setPort(int port) {
-        mPort = port;
-    }
-
     @Override
     @SuppressWarnings("unchecked")
-    public void request(String url, HashMap<String, Object> parameters, IRestCallback callback) {
+    public void request(String url, IRestCallback callback) {
         HashMap<String, Object> request = new HashMap<String, Object>();
         request.put("url", url);
         request.put("callback", callback);
-        request.put("parameters", parameters);
 
         AsyncCall call = new AsyncCall();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -73,7 +54,6 @@ public class RestService implements IRestService {
         protected HashMap<String, Object> doInBackground(HashMap<String, Object>... params) {
             HashMap<String, Object> request = params[0];
             String url = request.get("url").toString();
-            HashMap<String, Object> parameters = (HashMap<String, Object>) request.get("parameters");
 
             HttpResponse httpResponse;
             HttpUriRequest httpUriRequest;
@@ -81,21 +61,7 @@ public class RestService implements IRestService {
             HashMap<String, Object> response;
 
             try {
-                Map<String, Object> sortedParameters = new TreeMap<>(parameters);
-                String sign = "";
-
-                ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
-                for (Map.Entry<String, Object> entry : sortedParameters.entrySet()) {
-                    NameValuePair pair = new BasicNameValuePair(entry.getKey(), entry.getValue().toString());
-                    nameValuePairs.add(pair);
-                }
-
-                httpUriRequest = new HttpPost(mUrl + mPort + url);
-                UrlEncodedFormEntity body = new UrlEncodedFormEntity(nameValuePairs);
-                ((HttpPost) httpUriRequest).setEntity(body);
-                LogService.logRequest(mUrl, mPort, url, nameValuePairs);
-
-
+                httpUriRequest = new HttpGet(url);
                 httpResponse = defaultHttpClient.execute(httpUriRequest);
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
                 StringBuilder builder = new StringBuilder();
@@ -104,7 +70,10 @@ public class RestService implements IRestService {
                 }
 
                 JSONTokener jsonTokener = new JSONTokener(builder.toString());
-                JSONObject jsonObject = new JSONObject(jsonTokener);
+                JSONArray jsonArray = new JSONArray(jsonTokener);
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("status", true);
+                jsonObject.put("random_locations", jsonArray);
                 response = (HashMap<String, Object>) Utils.toMap(jsonObject);
                 LogService.logResponse(response);
             }
@@ -137,7 +106,7 @@ public class RestService implements IRestService {
                 response.put("message", "error_communication");
             }
 
-            HashMap<String, Object> result = new HashMap<String, Object>();
+            HashMap<String, Object> result = new HashMap<>();
             result.put("callback", request.get("callback"));
             result.put("response", response);
             return result;

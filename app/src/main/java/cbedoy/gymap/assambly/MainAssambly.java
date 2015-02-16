@@ -2,10 +2,13 @@ package cbedoy.gymap.assambly;
 
 import android.content.Context;
 
+import cbedoy.gymap.GoogleMapViewController;
 import cbedoy.gymap.business.MasterBusinessController;
 import cbedoy.gymap.business.login.LoginBusinessController;
 import cbedoy.gymap.business.map.MapBusinessController;
 import cbedoy.gymap.business.signup.SignUpBusinessController;
+import cbedoy.gymap.interfaces.IMementoHandler;
+import cbedoy.gymap.interfaces.INotificationMessages;
 import cbedoy.gymap.interfaces.IViewController;
 import cbedoy.gymap.interfaces.IViewManager;
 import cbedoy.gymap.services.InformationService;
@@ -31,6 +34,8 @@ public class MainAssambly
 {
 
     private static MainAssambly instance;
+    private IMementoHandler mementoHandler;
+    private INotificationMessages notificationMessages;
 
     public static MainAssambly getInstance(){
         if(instance == null)
@@ -46,8 +51,8 @@ public class MainAssambly
         MasterBusinessController masterBusinessController   = new MasterBusinessController();
         RestService restService                             = new RestService();
         InformationService informationService               = new InformationService();
-        MementoHandler mementoHandler                       = new MementoHandler();
-        NotificationMessages notificationMessages           = new NotificationMessages();
+        mementoHandler                                      = new MementoHandler();
+        notificationMessages                                = new NotificationMessages(viewManager.getParentActivity());
         UserProviderService userProviderService             = new UserProviderService(context, "IntegrationProject", null, 1);
         userProviderService.setMementoHandler(mementoHandler);
         userProviderService.setNotificationMessages(notificationMessages);
@@ -119,4 +124,11 @@ public class MainAssambly
         masterBusinessController.startApplication();
 
     }
+
+    public void provideInstances(GoogleMapViewController viewController)
+    {
+        viewController.setMementoHandler(mementoHandler);
+        viewController.setNotificationMessages(notificationMessages);
+    }
+
 }

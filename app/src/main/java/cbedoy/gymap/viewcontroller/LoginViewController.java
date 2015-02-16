@@ -47,13 +47,13 @@ public class LoginViewController extends AbstractViewController implements ILogi
             @Override
             public void onClick(View v)
             {
-                /*
+
                 String username = mUsernameView.getText().toString();
                 String password = mPasswordView.getText().toString();
                 representationDelegate.login(username, password);
-                */
-                Intent intent = new Intent(ApplicationLoader.mainContext, MapViewController.class);
-                ApplicationLoader.mainContext.startActivity(intent);
+
+                //Intent intent = new Intent(ApplicationLoader.mainContext, MapViewController.class);
+                //ApplicationLoader.mainContext.startActivity(intent);
             }
         });
         mActionSignUpView.setOnClickListener(new View.OnClickListener() {

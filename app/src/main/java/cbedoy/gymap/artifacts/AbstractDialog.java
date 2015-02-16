@@ -21,7 +21,7 @@ import cbedoy.gymap.R;
 public abstract class AbstractDialog
 {
     protected Activity activity;
-    protected ViewGroup view;
+    protected View view;
     protected Dialog dialog;
 
     public AbstractDialog(Activity activity){
