@@ -10,9 +10,11 @@ import cbedoy.gymap.business.login.interfaces.ILoginRepresentationHandler;
 import cbedoy.gymap.business.login.interfaces.ILoginTransactionDelegate;
 import cbedoy.gymap.business.login.interfaces.ILoginTransactionHandler;
 import cbedoy.gymap.interfaces.INotificationMessages;
+import cbedoy.gymap.services.CBUtils;
 
 import static cbedoy.gymap.interfaces.INotificationMessages.K_ERROR.K_INVALID_LOGIN;
 import static cbedoy.gymap.interfaces.INotificationMessages.MessageRepresentationCallback;
+import static cbedoy.gymap.services.CBUtils.saveLastSession;
 
 /**
  * Created by Carlos Bedoy on 09/02/2015.
@@ -77,6 +79,7 @@ public class LoginBusinessController extends BusinessController implements ILogi
         HashMap<String, Object> data = new HashMap<>();
         data.put("username", username);
         data.put("password", password);
+        saveLastSession(username, password);
         mementoHandler.setStateForOwner(data, password);
         notificationMessages.showLoader();
         informationHandler.requestLogin();

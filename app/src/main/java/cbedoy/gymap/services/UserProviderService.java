@@ -9,12 +9,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.HashMap;
 
 import cbedoy.gymap.artifacts.Memento;
+import cbedoy.gymap.business.login.interfaces.ILoginInformationDelegate;
 import cbedoy.gymap.business.signup.interfaces.ISignUpInformationDelegate;
 import cbedoy.gymap.interfaces.IMementoHandler;
 import cbedoy.gymap.interfaces.INotificationMessages;
 import cbedoy.gymap.interfaces.IUserProviderService;
-
-import static cbedoy.gymap.interfaces.INotificationMessages.K_ERROR.K_SUCCCESS;
 
 /**
  * Created by Carlos Bedoy on 13/02/2015.
@@ -31,7 +30,8 @@ public class UserProviderService extends SQLiteOpenHelper implements IUserProvid
 
     private IMementoHandler mementoHandler;
     private INotificationMessages notificationMessages;
-    private ISignUpInformationDelegate informationDelegate;
+    private ISignUpInformationDelegate signUpInformationDelegate;
+    private ILoginInformationDelegate loginInformationDelegate;
 
 
     private final String sqlCreateScript = "CREATE TABLE Users (username TEXT, password TEXT, first_name TEXT, last_name TEXT)";
@@ -47,8 +47,12 @@ public class UserProviderService extends SQLiteOpenHelper implements IUserProvid
         this.notificationMessages = notificationMessages;
     }
 
-    public void setInformationDelegate(ISignUpInformationDelegate informationDelegate) {
-        this.informationDelegate = informationDelegate;
+    public void setSignUpInformationDelegate(ISignUpInformationDelegate signUpInformationDelegate) {
+        this.signUpInformationDelegate = signUpInformationDelegate;
+    }
+
+    public void setLoginInformationDelegate(ILoginInformationDelegate loginInformationDelegate) {
+        this.loginInformationDelegate = loginInformationDelegate;
     }
 
     public UserProviderService(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -62,7 +66,7 @@ public class UserProviderService extends SQLiteOpenHelper implements IUserProvid
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(sqlDropScript);
+        //db.execSQL(sqlDropScript);
         db.execSQL(sqlCreateScript);
     }
 
@@ -72,11 +76,25 @@ public class UserProviderService extends SQLiteOpenHelper implements IUserProvid
         SQLiteDatabase readableDatabase = getReadableDatabase();
         String[] filters = new String[]{username, password};
         Cursor cursor = readableDatabase.rawQuery("SELECT * FROM Users where username = ? and password = ? ", filters);
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("status", false);
 
-        while (cursor.moveToFirst()){
-            String string = cursor.getString(0);
-            String string1 = cursor.getString(1);
+        while (cursor.moveToNext())
+        {
+            String _username = cursor.getString(0);
+            String _password = cursor.getString(1);
+            String _first_name = cursor.getString(2);
+            String _last_name = cursor.getString(3);
+            HashMap<String, Object> user_data = new HashMap<>();
+            user_data.put("username", _username);
+            user_data.put("password", _password);
+            user_data.put("first_name", _first_name);
+            user_data.put("last_name", _last_name);
+            response.put("status", true);
+            response.put("login_data", user_data);
         }
+        loginInformationDelegate.loginResponse(response);
+
     }
 
     @Override
@@ -101,6 +119,6 @@ public class UserProviderService extends SQLiteOpenHelper implements IUserProvid
 
         HashMap<String, Object> data = new HashMap<>();
         data.put("status", resultTransaction != -1);
-        informationDelegate.signUpResponse(data);
+        signUpInformationDelegate.signUpResponse(data);
     }
 }

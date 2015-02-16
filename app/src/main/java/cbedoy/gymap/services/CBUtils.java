@@ -5,41 +5,31 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.View;
-import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.HashMap;
 
-public class BillsUtils {
+import cbedoy.gymap.artifacts.ApplicationLoader;
+
+public class CBUtils {
 
     private static SharedPreferences pref;
     private static Editor editor;
-    private static BillsUtils instance;
+    private static CBUtils instance;
 
 
-    public static BillsUtils init(Activity activity){
+    public static CBUtils init(Activity activity){
         if (instance == null) {
-            instance = new BillsUtils();
+            instance = new CBUtils();
         }
         return instance;
     }
 
-    public static BillsUtils getInstance(){
+    public static CBUtils getInstance(){
         return instance;
     }
 
@@ -100,15 +90,26 @@ public class BillsUtils {
         editor.commit();
     }
 
-    public JSONObject getLastUserActive(Context c){
-        pref = c.getApplicationContext().getSharedPreferences("UserInformation", Context.MODE_PRIVATE);
-        try {
-            JSONObject jsonTemp = new JSONObject(pref.getString("LastUserActive", "{}"));
-            return jsonTemp;
 
-        } catch (JSONException e) {
-            return new JSONObject();
-        }
+
+    public static void saveLastSession(String username, String password)
+    {
+        SharedPreferences session = ApplicationLoader.mainContext.getSharedPreferences("session", Context.MODE_PRIVATE);
+        Editor edit = session.edit();
+        edit.putString("username", username);
+        edit.putString("password", password);
+        edit.commit();
+    }
+
+    public static HashMap<String, Object> getLastSession()
+    {
+        SharedPreferences session = ApplicationLoader.mainContext.getSharedPreferences("session", Context.MODE_PRIVATE);
+        String username = session.getString("username", "");
+        String password = session.getString("password", "");
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("username", username);
+        data.put("password", password);
+        return data;
     }
 
 }

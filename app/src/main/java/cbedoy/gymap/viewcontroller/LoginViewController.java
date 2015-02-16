@@ -6,11 +6,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.HashMap;
+
 import cbedoy.gymap.R;
 import cbedoy.gymap.artifacts.AbstractViewController;
 import cbedoy.gymap.artifacts.ApplicationLoader;
 import cbedoy.gymap.business.login.interfaces.ILoginRepresentationDelegate;
 import cbedoy.gymap.business.login.interfaces.ILoginRepresentationHandler;
+import cbedoy.gymap.services.CBUtils;
 
 /**
  * Created by Carlos Bedoy on 09/02/2015.
@@ -67,7 +70,9 @@ public class LoginViewController extends AbstractViewController implements ILogi
 
     @Override
     public void onAttachToWindow() {
-
+        HashMap<String, Object> lastSession = CBUtils.getLastSession();
+        mUsernameView.setText(lastSession.get("username").toString());
+        mPasswordView.setText(lastSession.get("password").toString());
     }
 
     @Override

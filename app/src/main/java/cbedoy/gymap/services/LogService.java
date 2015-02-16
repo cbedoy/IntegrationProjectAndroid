@@ -20,7 +20,7 @@ public class LogService
 {
 
     private static boolean mLogsEnabled = true;
-    private static final String mTag    = "org.pademobile.com";
+    private static final String mTag    = "cbedoy.gymap";
 
     public static void i(String message)
     {

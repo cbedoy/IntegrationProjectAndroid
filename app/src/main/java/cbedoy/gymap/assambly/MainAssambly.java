@@ -53,9 +53,7 @@ public class MainAssambly
         InformationService informationService               = new InformationService();
         mementoHandler                                      = new MementoHandler();
         notificationMessages                                = new NotificationMessages(viewManager.getParentActivity());
-        UserProviderService userProviderService             = new UserProviderService(context, "IntegrationProject", null, 1);
-        userProviderService.setMementoHandler(mementoHandler);
-        userProviderService.setNotificationMessages(notificationMessages);
+
 
         //LOGIN
         LoginViewController loginViewController = new LoginViewController();
@@ -100,11 +98,19 @@ public class MainAssambly
         signUpBusinessController.setRepresentationHandler(signUpViewController);
         signUpBusinessController.setTransactionHandler(masterBusinessController);
 
+        //DATA BASE PROVIDER
+        UserProviderService userProviderService = new UserProviderService(context, "IntegrationProject", null, 1);
+        userProviderService.setMementoHandler(mementoHandler);
+        userProviderService.setNotificationMessages(notificationMessages);
+        userProviderService.setLoginInformationDelegate(loginBusinessController);
+        userProviderService.setSignUpInformationDelegate(signUpBusinessController);
+
         //INFORMATION SERVICE
         informationService.setSignUpInformationDelegate(signUpBusinessController);
         informationService.setLoginInformationDelegate(loginBusinessController);
         informationService.setMapInformationDelegate(mapBusinessController);
         informationService.setUserProviderService(userProviderService);
+        informationService.setNotificationMessages(notificationMessages);
         informationService.setMementoHandler(mementoHandler);
         informationService.setRestService(restService);
 

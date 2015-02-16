@@ -1,6 +1,8 @@
 package cbedoy.gymap.widgets;
 
 import android.app.Activity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
@@ -69,4 +71,6 @@ public class LocationDialog extends AbstractDialog
     public interface  ILocationDialogCallback {
         public void run(String... values);
     }
+
+
 }

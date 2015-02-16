@@ -4,7 +4,10 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.preference.DialogPreference;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -115,7 +118,22 @@ public class NotificationMessages extends AbstractDialog implements INotificatio
     }
 
     @Override
-    public void showCodeWithCallback(K_ERROR error, MessageRepresentationCallback callback) {
+    public void showCodeWithCallback(K_ERROR error, final MessageRepresentationCallback callback) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Error : "+error);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                callback.onAccept();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                callback.onCancel();
+            }
+        });
+        builder.show();
 
     }
 

@@ -6,12 +6,11 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
 
-import cbedoy.gymap.services.BillsUtils;
+import cbedoy.gymap.services.CBUtils;
 import cbedoy.gymap.services.BlurService;
 import cbedoy.gymap.R;
 
@@ -79,7 +78,7 @@ public abstract class AbstractDialog
     protected void takeCurrentScreamShot()
     {
 
-        Bitmap screenShot = BillsUtils.getInstance().takeScreenShot(activity);
+        Bitmap screenShot = CBUtils.getInstance().takeScreenShot(activity);
         if(screenShot != null)
         {
             Bitmap blurByImageWithRadius = BlurService.getInstance().performRequestBlurByImageWithRadius(screenShot, 10);
@@ -101,4 +100,7 @@ public abstract class AbstractDialog
     public abstract View init();
     public abstract void reload();
 
+    public Activity getActivity() {
+        return activity;
+    }
 }

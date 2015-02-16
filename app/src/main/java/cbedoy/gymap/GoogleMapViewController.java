@@ -75,6 +75,7 @@ public class GoogleMapViewController extends FragmentActivity implements OnMyLoc
                 if (markerSelected.latitude != mPosition.latitude && markerSelected.longitude != mPosition.longitude) {
                     mProgressDialog.setTitle("Loading...");
                     mProgressDialog.setMessage("Please wait while trace the optimal route from your location to marker selected");
+                    mProgressDialog.show();
                     mDestiny = markerSelected;
                     findDirections(
                             mPosition.latitude,
@@ -182,7 +183,7 @@ public class GoogleMapViewController extends FragmentActivity implements OnMyLoc
 
 
     public void handleGetDirectionsResult(ArrayList<LatLng> directionPoints) {
-        PolylineOptions rectLine = new PolylineOptions().width(5).color(Color.parseColor("#FAFAFAa"));
+        PolylineOptions rectLine = new PolylineOptions().width(5).color(Color.parseColor("#FAFAFA"));
 
         for (int i = 0; i < directionPoints.size(); i++) {
             rectLine.add(directionPoints.get(i));

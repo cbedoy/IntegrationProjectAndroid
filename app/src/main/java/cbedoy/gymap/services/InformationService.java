@@ -61,15 +61,17 @@ public class InformationService implements ILoginInformationHandler, ISignUpInfo
         this.userProviderService = userProviderService;
     }
 
+    public void setNotificationMessages(INotificationMessages notificationMessages) {
+        this.notificationMessages = notificationMessages;
+    }
+
     @Override
     public void requestLogin() {
-        /*Memento topMemento = mementoHandler.getTopMemento();
+        Memento topMemento = mementoHandler.getTopMemento();
         HashMap<String, Object> mementoData = topMemento.getMementoData();
         String username = mementoData.get("username").toString();
         String password = mementoData.get("password").toString();
         userProviderService.findUserFromFromData(username, password);
-        */
-        requestMapInformation();
     }
 
     @Override
