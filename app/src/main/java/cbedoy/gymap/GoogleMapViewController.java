@@ -1,51 +1,59 @@
 package cbedoy.gymap;
 
-import android.location.Location;
-import android.location.LocationManager;
+import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.view.Display;
 
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import cbedoy.gymap.artifacts.ApplicationLoader;
-import cbedoy.gymap.artifacts.Memento;
-import cbedoy.gymap.assambly.MainAssambly;
-import cbedoy.gymap.interfaces.IMementoHandler;
-import cbedoy.gymap.interfaces.INotificationMessages;
+import cbedoy.gymap.services.GMapV2Direction;
 import cbedoy.gymap.services.GPService;
+import cbedoy.gymap.services.GetDirectionsAsyncTask;
+import cbedoy.gymap.services.LogService;
+import cbedoy.gymap.widgets.LocationDialog;
 
-public class GoogleMapViewController extends FragmentActivity implements GoogleMap.OnMyLocationButtonClickListener, OnMapReadyCallback
-{
+import static cbedoy.gymap.widgets.LocationDialog.*;
+import static com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
+
+public class GoogleMapViewController extends FragmentActivity implements OnMyLocationButtonClickListener, ILocationDialogCallback {
 
     private GoogleMap mMap;
-    private IMementoHandler mementoHandler;
-    private INotificationMessages notificationMessages;
+    private Polyline newPolyline;
 
     private float[] randomHue;
-
-    public void setMementoHandler(IMementoHandler mementoHandler) {
-        this.mementoHandler = mementoHandler;
-    }
-
-    public void setNotificationMessages(INotificationMessages notificationMessages) {
-        this.notificationMessages = notificationMessages;
-    }
+    private LatLngBounds latlngBounds;
+    private int width;
+    private int height;
+    private LatLng mPosition;
+    private LatLng mDestiny;
+    private LatLng mLongPressed;
+    private ProgressDialog mProgressDialog;
+    private HashMap<String, Object> mInformation;
+    private LocationDialog mLocationDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        mProgressDialog = new ProgressDialog(this);
         randomHue = new float[]{
                 BitmapDescriptorFactory.HUE_AZURE,
                 BitmapDescriptorFactory.HUE_BLUE,
@@ -58,9 +66,40 @@ public class GoogleMapViewController extends FragmentActivity implements GoogleM
                 BitmapDescriptorFactory.HUE_VIOLET,
                 BitmapDescriptorFactory.HUE_YELLOW
         };
-        MainAssambly.getInstance().provideInstances(this);
+
         setUpMapIfNeeded();
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                LatLng markerSelected = marker.getPosition();
+                if (markerSelected.latitude != mPosition.latitude && markerSelected.longitude != mPosition.longitude) {
+                    mProgressDialog.setTitle("Loading...");
+                    mProgressDialog.setMessage("Please wait while trace the optimal route from your location to marker selected");
+                    mDestiny = markerSelected;
+                    findDirections(
+                            mPosition.latitude,
+                            mPosition.longitude,
+                            mDestiny.latitude,
+                            mDestiny.longitude,
+                            GMapV2Direction.MODE_DRIVING
+                    );
+                }
+                return false;
+            }
+        });
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(final LatLng longPressed) {
+                if(mLocationDialog == null)
+                    mLocationDialog = new LocationDialog(GoogleMapViewController.this);
+                mLocationDialog.setCallback(GoogleMapViewController.this);
+                mLocationDialog.show();
+                mLongPressed = longPressed;
+            }
+        });
     }
+
+
 
     @Override
     protected void onResume() {
@@ -75,19 +114,21 @@ public class GoogleMapViewController extends FragmentActivity implements GoogleM
                 setUpMap();
                 mMap.setMyLocationEnabled(true);
                 mMap.setOnMyLocationButtonClickListener(this);
+                mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                mLocationDialog = new LocationDialog(this);
+
             }
-            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+
         }
     }
 
-    private void setUpMap()
-    {
-        Memento topMemento                                      = mementoHandler.getTopMemento();
-        HashMap<String, Object> mementoData                     = topMemento.getMementoData();
-        ArrayList<HashMap<String, Object>> selected_locations   = (ArrayList<HashMap<String, Object>>) mementoData.get("selected_locations");
-        int max                                                 = randomHue.length;
-        int index                                               = 0;
-        for(HashMap<String, Object> location : selected_locations){
+    private void setUpMap() {
+        mInformation                                            = (HashMap<String, Object>) getIntent().getSerializableExtra("dataInApp");
+        ArrayList<HashMap<String, Object>> selected_locations   = (ArrayList<HashMap<String, Object>>) mInformation.get("selected_locations");
+        int max = randomHue.length;
+        int index = 0;
+        for (HashMap<String, Object> location : selected_locations)
+        {
             MarkerOptions markerOptions                         = new MarkerOptions();
             double latitude                                     = Double.parseDouble(location.get("latitude").toString());
             double longitude                                    = Double.parseDouble(location.get("longitude").toString());
@@ -98,16 +139,40 @@ public class GoogleMapViewController extends FragmentActivity implements GoogleM
             String phone                                        = location.get("phone").toString();
             LatLng latLng                                       = new LatLng(latitude, longitude);
             String description                                  =   "" + city + " | " +
-                                                                    "" + country + " | " +
-                                                                    "" + company + " | " ;
-            String snippet                                      = full_name + " | " + phone;
+                                                                    "" + country + " | ";
+            String snippet                                      = company + " \n" + full_name + " \n " + phone;
             markerOptions.position(latLng);
             markerOptions.title(description);
             markerOptions.snippet(snippet);
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(randomHue[index++]));
-                    mMap.addMarker(markerOptions);
+            mMap.addMarker(markerOptions);
             index = index == max ? 0 : index;
         }
+
+        GPService gpService = new GPService(GoogleMapViewController.this);
+
+        if (gpService.canGetLocation()) {
+            double latitude = gpService.getLatitude();
+            double longitude = gpService.getLongitude();
+
+            mPosition = new LatLng(latitude, longitude);
+
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(mPosition);
+            String username = ApplicationLoader.getUsername();
+            markerOptions.title(username.length() > 0 ? username : "Desconcido");
+
+            mMap.addMarker(markerOptions);
+
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(latitude, longitude), 8));
+        } else {
+            gpService.showSettingsAlert();
+        }
+
+        getSreenDimanstions();
+
+        mProgressDialog.hide();
     }
 
     @Override
@@ -116,36 +181,77 @@ public class GoogleMapViewController extends FragmentActivity implements GoogleM
     }
 
 
+    public void handleGetDirectionsResult(ArrayList<LatLng> directionPoints) {
+        PolylineOptions rectLine = new PolylineOptions().width(5).color(Color.parseColor("#FAFAFAa"));
+
+        for (int i = 0; i < directionPoints.size(); i++) {
+            rectLine.add(directionPoints.get(i));
+        }
+        if (newPolyline != null) {
+            newPolyline.remove();
+        }
+        newPolyline = mMap.addPolyline(rectLine);
+
+        latlngBounds = createLatLngBoundsObject(mPosition, mDestiny);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latlngBounds, width, height, 150));
+
+        mProgressDialog.hide();
+
+    }
+
+
+
+    private void getSreenDimanstions()
+    {
+        Display display = getWindowManager().getDefaultDisplay();
+        width = display.getWidth();
+        height = display.getHeight();
+    }
+
+
+    private LatLngBounds createLatLngBoundsObject(LatLng firstLocation, LatLng secondLocation)
+    {
+        if (firstLocation != null && secondLocation != null)
+        {
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            builder.include(firstLocation).include(secondLocation);
+
+            return builder.build();
+        }
+        return null;
+    }
+
+    private void findDirections(double fromPositionDoubleLat, double fromPositionDoubleLong, double toPositionDoubleLat, double toPositionDoubleLong, String mode)
+    {
+        Map<String, String> map = new HashMap<>();
+        map.put(GetDirectionsAsyncTask.USER_CURRENT_LAT, String.valueOf(fromPositionDoubleLat));
+        map.put(GetDirectionsAsyncTask.USER_CURRENT_LONG, String.valueOf(fromPositionDoubleLong));
+        map.put(GetDirectionsAsyncTask.DESTINATION_LAT, String.valueOf(toPositionDoubleLat));
+        map.put(GetDirectionsAsyncTask.DESTINATION_LONG, String.valueOf(toPositionDoubleLong));
+        map.put(GetDirectionsAsyncTask.DIRECTIONS_MODE, mode);
+
+        GetDirectionsAsyncTask asyncTask = new GetDirectionsAsyncTask(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+        {
+            asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, map);
+        }
+        else
+        {
+            asyncTask.execute(map);
+        }
+    }
+
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        /*MarkerOptions markerOptions = new MarkerOptions();
+    public void run(String... values) {
 
-        LocationManager locationManager = new LocationManager();
-        locationManager.get
-        markerOptions.position(new LatLng(location.getLatitude(), location.getLongitude()));
-        String username = ApplicationLoader.getUsername();
-        markerOptions.title(username.length() > 0 ? username : "Desconcido");
-
-        mMap.addMarker(markerOptions);
-
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                new LatLng(location.getLatitude(), location.getLongitude()), 16));*/
-
-        GPService gpService = new GPService(GoogleMapViewController.this);
-
-        // check if GPS enabled
-        if(gpService.canGetLocation()){
-
-            double latitude = gpService.getLatitude();
-            double longitude = gpService.getLongitude();
-
-            // \n is for new line
-            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-        }else{
-            // can't get location
-            // GPS or Network is not enabled
-            // Ask user to enable GPS/network in settings
-            gpService.showSettingsAlert();
+        if(mLongPressed != null)
+        {
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(mLongPressed);
+            markerOptions.title(values[0] + " " + values[1]);
+            markerOptions.snippet(values[2] + " " + values[2]);
+            mMap.addMarker(markerOptions);
+            LogService.e("Location Saved");
         }
     }
 }

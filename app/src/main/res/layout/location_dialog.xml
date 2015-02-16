@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#cc000000"/>
+
+    <TextView
+        android:layout_marginTop="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="Attention"
+        android:textSize="20sp"
+        android:textColor="#FAFAFA"
+        android:gravity="center"
+        android:id="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="96dp"
+        android:text="Give the information to save current position as marker"
+        android:textSize="20sp"
+        android:textColor="#FAFAFA"
+        android:gravity="center"
+        android:id="@+id/textView3"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="name"
+        android:textColorHint="#606060"
+        android:id="@+id/mName"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="description"
+        android:textColorHint="#606060"
+        android:id="@+id/mDescription"
+        android:layout_below="@+id/mName"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="full name"
+        android:textColorHint="#606060"
+        android:id="@+id/mFullname"
+        android:layout_below="@+id/mDescription"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="phone"
+        android:textColorHint="#606060"
+        android:id="@+id/mPhone"
+        android:layout_below="@+id/mFullname"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_margin="24dp"
+        android:background="#293a4a"
+        android:textColor="#FAFAFA"
+        android:text="Accept"
+        android:id="@+id/button"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>

@@ -125,10 +125,5 @@ public class MainAssambly
 
     }
 
-    public void provideInstances(GoogleMapViewController viewController)
-    {
-        viewController.setMementoHandler(mementoHandler);
-        viewController.setNotificationMessages(notificationMessages);
-    }
 
 }

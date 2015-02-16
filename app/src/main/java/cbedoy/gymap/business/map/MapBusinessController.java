@@ -10,6 +10,7 @@ import java.util.Random;
 import cbedoy.gymap.GoogleMapViewController;
 import cbedoy.gymap.artifacts.ApplicationLoader;
 import cbedoy.gymap.artifacts.BusinessController;
+import cbedoy.gymap.artifacts.Memento;
 import cbedoy.gymap.business.map.interfaces.IMapInformationDelegate;
 import cbedoy.gymap.business.map.interfaces.IMapInformationHandler;
 import cbedoy.gymap.business.map.interfaces.IMapRepresentationDelegate;
@@ -56,7 +57,7 @@ public class MapBusinessController extends BusinessController implements IMapInf
             ArrayList<HashMap<String, Object>> random_locations = (ArrayList<HashMap<String, Object>>) response.get("random_locations");
             ArrayList<HashMap<String, Object>> selected_locations = new ArrayList<>();
             Collections.shuffle(random_locations);
-            for(int i = 0 ; i < 25 ; i++)
+            for(int i = 0 ; i < 50 ; i++)
             {
                 selected_locations.add(random_locations.get(i));
             }
@@ -66,6 +67,11 @@ public class MapBusinessController extends BusinessController implements IMapInf
 
             Intent intent = new Intent(ApplicationLoader.mainContext, GoogleMapViewController.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            Memento topMemento = mementoHandler.getTopMemento();
+            HashMap<String, Object> mementoData = topMemento.getMementoData();
+            intent.putExtra("dataInApp", mementoData);
+
             ApplicationLoader.mainContext.startActivity(intent);
         }
     }
