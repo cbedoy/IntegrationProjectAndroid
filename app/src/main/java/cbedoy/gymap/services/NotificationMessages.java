@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +22,8 @@ import cbedoy.gymap.widgets.CBCircularProgressBar;
 import static cbedoy.gymap.R.drawable.ic_error;
 import static cbedoy.gymap.R.drawable.ic_network;
 import static cbedoy.gymap.R.drawable.ic_success;
+import static cbedoy.gymap.interfaces.INotificationMessages.K_ERROR.K_ERROR;
+import static cbedoy.gymap.interfaces.INotificationMessages.K_ERROR.K_INVALID_LOGIN;
 import static cbedoy.gymap.interfaces.INotificationMessages.K_ERROR.K_NETWORK;
 import static cbedoy.gymap.interfaces.INotificationMessages.K_ERROR.K_SUCCCESS;
 
@@ -50,6 +53,7 @@ public class NotificationMessages extends AbstractDialog implements INotificatio
     private TextView mTitle;
     private TextView mMessage;
     private View mAccept;
+    private Button mSign;
     private ImageView mNotificationIcon;
 
     public NotificationMessages(Activity activity) {
@@ -153,16 +157,43 @@ public class NotificationMessages extends AbstractDialog implements INotificatio
         initNotification();
         mTitle.setText(error == K_SUCCCESS ? "Success!!" : "Error");
         mNotificationIcon.setImageResource(error == K_SUCCCESS ? ic_success : error == K_NETWORK ? ic_network : ic_error);
-        mMessage.setText(error + "");
+        mMessage.setText(getMessage(error));
         mAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(callback != null)
+                if (callback != null)
                     callback.onAccept();
                 hide();
             }
         });
+        mSign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(callback != null)
+                    callback.onCancel();
+                hide();
+            }
+        });
+        mSign.setVisibility(error == K_INVALID_LOGIN ? View.VISIBLE : View.GONE);
         show();
+    }
+
+    private String getMessage(K_ERROR error) {
+        switch (error) {
+            case K_INVALID_LOGIN:
+                return "The credentials are invalid, please try again. \n Are you want sign now?";
+            case K_INVALID_CITY:
+                return "Country invalid.";
+            case K_ERROR:
+                return "Ups!! Can't connect with the service provider, please try later";
+            case K_SUCCCESS:
+                return "Great!! All information was loaded successfully";
+            case K_INVALID_DATA:
+                return "The information are invalid.";
+            case K_NETWORK:
+                return "Please, verify your network connection.";
+        }
+        return "";
     }
 
 
@@ -184,7 +215,7 @@ public class NotificationMessages extends AbstractDialog implements INotificatio
             this.mMessage = (TextView) notificationView.findViewById(R.id.mNotificationMessage);
             this.mAccept = notificationView.findViewById(R.id.mNotificationAction);
             this.mNotificationIcon = (ImageView) notificationView.findViewById(R.id.mNotificationIcon);
-
+            this.mSign = (Button) notificationView.findViewById(R.id.mRegisterNoew);
         }
         return notificationView;
     }

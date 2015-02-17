@@ -6,7 +6,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#99000000"/>
+        android:background="#DD000000"/>
 
     <ImageView
         android:layout_width="140dp"
@@ -64,4 +64,17 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="Register Now"
+        android:textColor="#009688"
+        android:textSize="20sp"
+        android:id="@+id/mRegisterNoew"
+        android:layout_below="@+id/mNotificationMessage"
+        android:layout_alignLeft="@+id/mNotificationAction"
+        android:layout_alignStart="@+id/mNotificationAction"
+        android:layout_alignRight="@+id/mNotificationMessage"
+        android:layout_alignEnd="@+id/mNotificationMessage" />
 </RelativeLayout>

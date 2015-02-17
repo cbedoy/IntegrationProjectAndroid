@@ -87,12 +87,12 @@ public class LoginViewController extends AbstractViewController implements ILogi
 
     @Override
     public void clearUsername() {
-
+       mUsernameView.setText("");
     }
 
     @Override
     public void clearPassword() {
-
+        mPasswordView.setText("");
     }
 
     @Override

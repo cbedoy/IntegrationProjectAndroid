@@ -51,6 +51,7 @@ public class SignUpBusinessController extends BusinessController implements ISig
             HashMap<String, Object> data = new HashMap<>();
             data.put("sign_up_response", response);
             mementoHandler.setStateForOwner(data, this);
+            representationHandler.clearFields();
             transactionHandler.signedUser();
         }
         else
